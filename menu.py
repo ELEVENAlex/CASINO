@@ -48,7 +48,9 @@ def opciones():
         start()
         import slots
     if pregunta=='2' or pregunta=='blackjack':
-        return 2
+        os.system('cls')
+        start()
+        import BLACKJACK
     if pregunta=='3' or pregunta=='carrera de caballos':
         os.system('cls')
         start()
