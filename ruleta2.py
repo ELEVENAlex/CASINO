@@ -1,12 +1,13 @@
-print(
-"   ███████████   █████  █████ █████       ██████████ ███████████   █████████   \n"
-"  ░░███░░░░░███ ░░███  ░░███ ░░███       ░░███░░░░░█░█░░░███░░░█  ███░░░░░███  \n"
-"   ░███    ░███  ░███   ░███  ░███        ░███  █ ░ ░   ░███  ░  ░███    ░███  \n"
-"   ░██████████   ░███   ░███  ░███        ░██████       ░███     ░███████████  \n"
-"   ░███░░░░░███  ░███   ░███  ░███        ░███░░█       ░███     ░███░░░░░███  \n"
-"   ░███    ░███  ░███   ░███  ░███      █ ░███ ░   █    ░███     ░███    ░███  \n"
-"   █████   █████ ░░████████   ███████████ ██████████    █████    █████   █████ \n"
-"   ░░░░░   ░░░░░   ░░░░░░░░   ░░░░░░░░░░░ ░░░░░░░░░░    ░░░░░    ░░░░░   ░░░░░ ")
+def ruleta():
+    print(
+    "   ███████████   █████  █████ █████       ██████████ ███████████   █████████   \n"
+    "  ░░███░░░░░███ ░░███  ░░███ ░░███       ░░███░░░░░█░█░░░███░░░█  ███░░░░░███  \n"
+    "   ░███    ░███  ░███   ░███  ░███        ░███  █ ░ ░   ░███  ░  ░███    ░███  \n"
+    "   ░██████████   ░███   ░███  ░███        ░██████       ░███     ░███████████  \n"
+    "   ░███░░░░░███  ░███   ░███  ░███        ░███░░█       ░███     ░███░░░░░███  \n"
+    "   ░███    ░███  ░███   ░███  ░███      █ ░███ ░   █    ░███     ░███    ░███  \n"
+    "   █████   █████ ░░████████   ███████████ ██████████    █████    █████   █████ \n"
+    "   ░░░░░   ░░░░░   ░░░░░░░░   ░░░░░░░░░░░ ░░░░░░░░░░    ░░░░░    ░░░░░   ░░░░░ ")
 
 
 from select import select
@@ -14,6 +15,8 @@ from socket import socket
 import time
 import random
 from prettytable import PrettyTable
+import os
+from playsound import playsound
  
  
 tiradas=0
@@ -28,24 +31,70 @@ x.field_names =['\x1b[5;30;42m'+' 0 '+'\x1b[0m','\x1b[4;30;41m'+' 1 '+'\x1b[0m',
 
 x.add_row(['\x1b[5;30;47m'+' 19 '+'\x1b[0m','\x1b[4;30;41m'+' 20 '+'\x1b[0m','\x1b[4;30;41m'+' 21 '+'\x1b[0m','\x1b[5;30;47m'+' 22 '+'\x1b[0m','\x1b[4;30;41m'+' 23 '+'\x1b[0m','\x1b[5;30;47m'+' 24 '+'\x1b[0m','\x1b[4;30;41m'+' 25 '+'\x1b[0m','\x1b[5;30;47m'+' 26 '+'\x1b[0m','\x1b[4;30;41m'+' 27 '+'\x1b[0m','\x1b[5;30;47m'+' 28 '+'\x1b[0m','\x1b[4;30;41m'+' 29 '+'\x1b[0m','\x1b[5;30;47m'+' 30 '+'\x1b[0m','\x1b[4;30;41m'+' 31 '+'\x1b[0m','\x1b[4;30;41m'+' 32 '+'\x1b[0m','\x1b[5;30;47m'+' 33 '+'\x1b[0m','\x1b[4;30;41m'+' 34 '+'\x1b[0m','\x1b[5;30;47m'+' 35 '+'\x1b[0m','\x1b[4;30;41m'+' 36 '+'\x1b[0m','\x1b[4;30;40m'+'   '+'\x1b[0m'])
 
-print(x)
+def tabla():
+    print(x)
 
-print("MENU: \n"
-      "1. Apostar numero \n"
-      "2. Apostar negro \n"
-      "3. Apostar rojo \n"
-      "4. Apostar verde \n"
-      "5. Apostar pares \n"
-      "6. Apostar impares \n"
-      "7. Ver banco \n"
-      "8. Dejar de apostar")
+def menu():
+    print('''
+        MENÚ:
+        1. Apostar número
+        2. Apostar negro
+        3. Apostar rojo
+        4. Apostar verde
+        5. Apostar pares
+        6. Apostar impares
+        7. Dejar de apostar
+    ''')
 
-choice = int(input("Que desea hacer: "))
+def limpiar():
+    time.sleep(3)
+    os.system('cls')
+    
+choice=None
+ruleta()
+tabla()
+playsound('./sonidos/temazo_ini.wav')
+limpiar()
 
+def eleccion():
+    global choice, bank
+    ruleta()
+    tabla()
+    menu()
+    print("Bank: ",bank)
+    numeros=[1,2,3,4,5,6,7]
+    valid=False
+    while valid==False and bank>0:
+        try:
+            choice = int(input("Que desea hacer: "))
+            valid=True
+            if choice not in numeros:
+                raise Exception
+        except Exception:
+            print('Opción no disponible en el menú')
+            valid=False 
+        except:
+            print('Error! volver a intentar')
+            valid=False
+    if valid==True:
+        return True
 
 bank = 1000
-print("Bank: ",bank)
-apuesta = int(input("Ingrese la cantidad que quiere apostar: "))
+
+def apostar():
+    global bank, apuesta, choice
+    elegir=eleccion()
+    if elegir==True and choice<7 and bank>0:
+        valid2=False
+        while valid2==False:
+            try:
+                apuesta = int(input("Ingrese la cantidad que quiere apostar: "))
+                if apuesta>bank and bank>0:
+                    print('No tienes suficiente dinero para esa apuesta')
+                else:
+                    valid2=True
+            except:
+                print('Error! volver a intentar')
 ##numero_apostado = int(input("Ingrese el numero al que quiere apostar: "))
 
 ##FUNCIONES 
@@ -60,19 +109,23 @@ def apuesta_num():
         print("El numero ganador es el 00 !!")
         if numero_apostado == 0:
             bank = bank + apuesta * 12
+            playsound('./sonidos/bonk.wav')
             print("Bank: ",bank)
         elif numero_apostado != 0:
             bank = bank - apuesta
             print("Bank: ",bank)
+            playsound('./sonidos/bank.wav')
         
     elif numero_apostado == numero_ganador:
         print("Tu numero ha salido premiado !")
         bank = bank + apuesta * 5
         print("Bank: ", bank)
+        playsound('./sonidos/bonk.wav')
     else:
         bank = bank - apuesta
         print("Tu numero no ha salido premiado !")
         print("Bank: ", bank)
+        playsound('./sonidos/bank.wav')
         
         
 def apuesta_rojo():
@@ -86,10 +139,12 @@ def apuesta_rojo():
         print("El color rojo ha salido premiado !")
         bank = bank + apuesta
         print("Bank: ",bank)
+        playsound('./sonidos/bonk.wav')
     elif numero_ganador in numeros_negros:
         print("El color rojo no ha salido premiado...")
         bank = bank - apuesta
         print("Bank: ",bank)
+        playsound('./sonidos/bank.wav')
     ##else:
         ##print("No se ha podido realizar la apuesta")
         
@@ -104,10 +159,12 @@ def apuesta_negro():
         print("El color negro ha salido premiado !")
         bank = bank + apuesta
         print("Bank: ",bank)
+        playsound('./sonidos/bonk.wav')
     elif numero_ganador in numeros_rojos:
         print("El color negro no ha salido premiado...")
         bank = bank - apuesta
         print("Bank: ",bank)
+        playsound('./sonidos/bank.wav')
     ##else:
         ##print("No se ha podido realizar la apuesta")
         
@@ -121,10 +178,12 @@ def apuesta_verde():
         print("El color verde ha salido premiado !!")
         bank = bank + apuesta * 12
         print("Bank: ",bank)
+        playsound('./sonidos/bonk.wav')
     else:
         print("El color verde no ha salido premiado...")
         bank = bank - apuesta
         print("Bank: ",bank)
+        playsound('./sonidos/bank.wav')
         
 def apuesta_pares():
     global bank
@@ -136,10 +195,12 @@ def apuesta_pares():
         print("Los numeros pares han salido premiados !")
         bank = bank + apuesta * 3
         print("Bank: ",bank)
+        playsound('./sonidos/bonk.wav')
     else:
         print("Los numeros pares no han salido premiados...")
         bank = bank - apuesta
         print("Bank: ",bank)
+        playsound('./sonidos/bank.wav')
         
 def apuesta_impares():
     global bank
@@ -151,53 +212,73 @@ def apuesta_impares():
         print("Los numeros impares han salido premiados !")
         bank = bank + apuesta * 3
         print("Bank: ",bank)
+        playsound('./sonidos/bonk.wav')
 
     else:
         print("Los numeros impares no han salido premiados...")
         bank = bank - apuesta
         print("Bank: ",bank)
-        
+        playsound('./sonidos/bank.wav')
         
 ## EJECUCION PRINCIPAL
+if bank>0:
+    apostar()
+else:
+    print('Estas sin dinero!')
 
-while choice < 8:
+while bank>0:
     if choice == 1:
-        numero_apostado = int(input("Ingrese el numero al que quiere apostar: "))
+        valid=False
+        while valid==False:
+            try:
+                numero_apostado = int(input("Ingrese el numero al que quiere apostar: "))
+                valid=True 
+                if numero_apostado not in lista_numeros:
+                    raise Exception
+            except Exception:
+                print('Este número no está en la lista')
+                valid=False
+            except:
+                print('Error! volver a intentar')
+                valid=False
         apuesta_num()
-        choice = int(input("Que desea hacer: "))
-        apuesta = int(input("Ingrese la cantidad que quiere apostar: "))
+        limpiar()
+        apostar()
 
-    if choice == 2:
+    elif choice == 2:
         apuesta_negro()
-        choice = int(input("Que desea hacer: "))
-        apuesta = int(input("Ingrese la cantidad que quiere apostar: "))
+        limpiar()
+        apostar()
 
-    if choice == 3:
+    elif choice == 3:
         apuesta_rojo()
-        choice = int(input("Que desea hacer: "))
-        apuesta = int(input("Ingrese la cantidad que quiere apostar: "))
+        limpiar()
+        apostar()
 
-    if choice == 4:
+    elif choice == 4:
         apuesta_verde()
-        choice = int(input("Que desea hacer: "))
-        apuesta = int(input("Ingrese la cantidad que quiere apostar: "))
+        limpiar()
+        apostar()
 
-    if choice == 5:
+    elif choice == 5:
         ##numero_apostado = int(input("Ingrese el numero al que quiere apostar: "))
         apuesta_pares()
-        choice = int(input("Que desea hacer: "))
-        apuesta = int(input("Ingrese la cantidad que quiere apostar: "))
+        limpiar()
+        apostar()
 
-    if choice == 6:
+    elif choice == 6:
         ##numero_apostado = int(input("Ingrese el numero al que quiere apostar: "))
         apuesta_impares()
-        choice = int(input("Que desea hacer: "))
-        apuesta = int(input("Ingrese la cantidad que quiere apostar: "))
-
-    if choice == 7:
-        print("Bank: ",bank)
-        choice = int(input("Que desea hacer: "))
+        limpiar()
+        apostar()
+    
+    elif choice ==7:
+        print('EXIT')
+        limpiar()
+        break
         
     if bank <= 0:
-        print("Se te acabó el dinero")
+        print("Se te acabó el dinero :(")
+        playsound('./sonidos/bank.wav')
+        limpiar()
         break
