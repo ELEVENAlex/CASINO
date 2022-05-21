@@ -3,3 +3,4 @@
 
 pip install playsound
 pip install prettytable
+pip install Pillow
