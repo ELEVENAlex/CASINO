@@ -15,7 +15,7 @@ class Carta:
         self.carta_value = carta_value
  
 def clear():
-    os.system("clear")
+    os.system("cls")
  
 def print_cartas(cartas, hidden):
          
@@ -139,7 +139,7 @@ def blackjack_game(deck):
     crupier_puntuacion = 0
  
     clear()
-    apuesta = int(input("Cuanto quieres apostar"))
+    apuesta = int(input("Cuanto quieres apostar: "))
     banco -= apuesta
     while len(jugador_cartas) < 2:
  
