@@ -219,3 +219,4 @@ if __name__=='__main__':
     bot3.place(relx = 0.850, rely = 0.65)
     
     ventana.mainloop()
+import menu
