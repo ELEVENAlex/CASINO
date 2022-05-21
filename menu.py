@@ -1,4 +1,6 @@
 ##menu to wapo
+from subprocess import run
+import sys
 from playsound import playsound
 import os
 
@@ -48,7 +50,9 @@ def opciones():
         start()
         import slots
     if pregunta=='2' or pregunta=='blackjack':
-        return 2
+        os.system('cls')
+        start()
+        run([sys.executable,'BLACKJACK.py'])
     if pregunta=='3' or pregunta=='carrera de caballos':
         os.system('cls')
         start()
@@ -58,7 +62,9 @@ def opciones():
         start()
         import ruleta2
     if pregunta=='5' or pregunta=='bingo':
-        return 5
+        os.system('cls')
+        start()
+        run([sys.executable,'BingoProyecto.py'])
     else:
         return False
 
