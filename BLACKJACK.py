@@ -5,16 +5,12 @@ from playsound import playsound
  
 def blackjack():
     print('''
-    
-        $$$$$$$\  $$\        $$$$$$\   $$$$$$\  $$\   $$\   $$$$$\  $$$$$$\   $$$$$$\  $$\   $$\ 
-        $$  __$$\ $$ |      $$  __$$\ $$  __$$\ $$ | $$  |  \__$$ |$$  __$$\ $$  __$$\ $$ | $$  |
-        $$ |  $$ |$$ |      $$ /  $$ |$$ /  \__|$$ |$$  /      $$ |$$ /  $$ |$$ /  \__|$$ |$$  / 
-        $$$$$$$\ |$$ |      $$$$$$$$ |$$ |      $$$$$  /       $$ |$$$$$$$$ |$$ |      $$$$$  /  
-        $$  __$$\ $$ |      $$  __$$ |$$ |      $$  $$<  $$\   $$ |$$  __$$ |$$ |      $$  $$<   
-        $$ |  $$ |$$ |      $$ |  $$ |$$ |  $$\ $$ |\$$\ $$ |  $$ |$$ |  $$ |$$ |  $$\ $$ |\$$\  
-        $$$$$$$  |$$$$$$$$\ $$ |  $$ |\$$$$$$  |$$ | \$$\.\$$$$$$  |$$ |  $$ |\$$$$$$  |$$ | \$$\ 
-        \_______/ \________|\__|  \__| \______/ \__|  \__|\______/ \__|  \__| \______/ \__|  \__|
-                                                                                         
+ _     _            _     _            _    
+| |__ | | __ _  ___| | __(_) __ _  ___| | __
+| '_ \| |/ _` |/ __| |/ /| |/ _` |/ __| |/ /
+| |_) | | (_| | (__|   < | | (_| | (__|   < 
+|_.__/|_|\__,_|\___|_|\_\/ |\__,_|\___|_|\_\.
+                       |__/                                                                                                                           
     ''')
 blackjack()
 playsound('./sonidos/temazo_ini.wav')
@@ -32,6 +28,7 @@ class Carta:
  
 def clear():
     os.system("cls")
+clear()
  
 def print_cartas(cartas, hidden):
          
@@ -155,7 +152,17 @@ def blackjack_game(deck):
     crupier_puntuacion = 0
  
     clear()
-    apuesta = int(input("Cuanto quieres apostar: "))
+    blackjack()
+    print('''
+    Banco: '''+str(banco))
+    valid=False
+    while valid==False:
+        try:
+            apuesta = int(input("Cuanto quieres apostar: "))
+            valid=True
+        except:
+            print('Error!! Vuelve a intentarlo')
+            valid=False
     banco -= apuesta
     while len(jugador_cartas) < 2:
  
@@ -199,15 +206,19 @@ def blackjack_game(deck):
                 crupier_puntuacion -= 10
  
         input()
+        clear()
+        blackjack()
  
     if jugador_puntuacion == 21:
         print("HAS HECHO BLACKJACK!!!!")
         print("HAS GANADOOOO!!!!")
         banco += apuesta*2.5
         print("ahora tienes este dinero, ", banco)
+        time.sleep(3)
         quit()
  
     clear()
+    blackjack()
  
     print("Las cartas del crupier son : ")
     print_cartas(crupier_cartas[:-1], True)
@@ -220,11 +231,20 @@ def blackjack_game(deck):
     print("Tu puntuacion es = ", jugador_puntuacion)
  
     while jugador_puntuacion < 21:
-        choice = input(" H de Hit or S de Stand : ")
+        valid2=False
+        while valid2==False:
+            try:
+                choice = input(" H de Hit or S de Stand : ")
+                valid2=True
+                if len(choice) != 1 or (choice.upper() != 'H' and choice.upper() != 'S'):
+                    raise Exception
+            except Exception:
+                print('Error!! Vuelve a intentarlo')
+                valid2=False
  
-        if len(choice) != 1 or (choice.upper() != 'H' and choice.upper() != 'S'):
-            clear()
-            print("Opcion equivocada, elige otra vez")
+        # if len(choice) != 1 or (choice.upper() != 'H' and choice.upper() != 'S'):
+        #     clear()
+        #     print("Opcion equivocada, elige otra vez")
  
         if choice.upper() == 'H':
  
@@ -243,7 +263,8 @@ def blackjack_game(deck):
                 else:
                     c += 1
  
-            clear()    
+            clear()
+            blackjack()    
  
             print("Las cartas del crupier son : ")
             print_cartas(crupier_cartas[:-1], True)
@@ -260,6 +281,7 @@ def blackjack_game(deck):
  
  
     clear()
+    blackjack()
  
     print("Tus cartas son: ")
     print_cartas(jugador_cartas, False)
@@ -275,19 +297,22 @@ def blackjack_game(deck):
     if jugador_puntuacion == 21:
         print("HAS HECHO BLACKJACK!!!!")
         banco += apuesta*2.5
-        print("ahora tienes este dinero, ", banco)
+        print("Ahora tienes este dinero, ", banco)
+        time.sleep(3)
         quit()
  
     if jugador_puntuacion > 21:
         print("TE HAS PASADO!!! HAS PERDIDO!!!")
         
-        print("ahora tienes este dinero, ", banco)
+        print("Ahora tienes este dinero, ", banco)
+        time.sleep(3)
         quit()
  
     input()
  
     while crupier_puntuacion < 17:
         clear()
+        blackjack()
  
         print("EL CRUPIER DECIDE COGER OTRA CARTA.....")
  
@@ -321,27 +346,32 @@ def blackjack_game(deck):
     if crupier_puntuacion > 21:        
         print("EL CRUPIER SE HA PASADO!!! HAS GANADOOOO!!!")
         banco += apuesta*2
-        print("ahora tienes este dinero, ", banco)   
+        print("Ahora tienes este dinero, ", banco)
+        time.sleep(3)   
         quit()  
  
     if crupier_puntuacion == 21:
         print("EL CRUPIER HA HECHO BLACKJACK!!! HAS PERDIDO")
         
-        print("ahora tienes este dinero, ", banco)   
+        print("Ahora tienes este dinero, ", banco)
+        time.sleep(3)   
         quit()
  
     if crupier_puntuacion == jugador_puntuacion:
         print("EMPATEEE!!!!")
+        time.sleep(3)
  
     # Player Wins
     elif jugador_puntuacion > crupier_puntuacion:
         print("HAS GANADO!!!")  
         banco += apuesta*2              
         print("ahora tienes este dinero, ", banco)
+        time.sleep(3)
     else:
         print("EL CRUPIER GANA!!!")    
         
-        print("ahora tienes este dinero, ", banco)          
+        print("Ahora tienes este dinero, ", banco)
+        time.sleep(3)          
  
 if __name__ == '__main__':
  
