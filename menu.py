@@ -7,7 +7,6 @@ try:
     from prettytable import prettytable
     from tkinter import *
     from PIL import ImageTk, Image
-    import ola
 except Exception as e:
     print('Algún módulo no está instalado!! Revisa requirements.txt')
     print(e)
