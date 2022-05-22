@@ -1,8 +1,17 @@
 ##menu to wapo
-from subprocess import run
-import sys
-from playsound import playsound
-import os
+try:
+    from subprocess import run
+    import sys
+    from playsound import playsound
+    import os
+    from prettytable import prettytable
+    from tkinter import *
+    from PIL import ImageTk, Image
+    import ola
+except Exception as e:
+    print('Algún módulo no está instalado!! Revisa requirements.txt')
+    print(e)
+    quit()
 
 ##modulos
 
